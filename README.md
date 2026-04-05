@@ -31,20 +31,22 @@ A robust, secure Node.js/Express/MongoDB backend designed for financial data man
    cd finance-dashboard-backend
 
 2. **Install Dependencies:**
-    ```terminal
+    ```code
     npm install
 
     Environment Configuration:
     Create a .env file in the root directory and add the following:
 
-    ```.env
+    ```code
     PORT=5000
     MONGO_URI=your_mongodb_connection_string
     JWT_SECRET=your_random_secret_key
 
 3. **Run the Server:**
 
-    Development mode: $npm run dev$
+    Development mode: $$
+    npm run dev
+    $$
 
     Production mode: $npm start$
 
