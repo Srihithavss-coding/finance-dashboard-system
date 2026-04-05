@@ -1,6 +1,6 @@
 # Finance Dashboard Backend
 
-A robust, secure Node.js/Express/MongoDB backend designed for financial data management. This system features strict Role-Based Access Control (RBAC), advanced data aggregation, and optimized API performance.
+A robust, secure (Node.js/Express/MongoDB) backend designed for financial data management. This system features strict Role-Based Access Control (RBAC), advanced data aggregation, and optimized API performance.
 
 ## 🚀 Key Features
 - **User & Role Management:** Secure registration and login with **JWT Authentication** and password hashing via **Bcrypt**.
@@ -31,24 +31,24 @@ A robust, secure Node.js/Express/MongoDB backend designed for financial data man
    cd finance-dashboard-backend
 
 2. **Install Dependencies:**
-    ```code
+    ```
     npm install
-
+```
     Environment Configuration:
     Create a .env file in the root directory and add the following:
 
-    ```code
+    ```
     PORT=5000
     MONGO_URI=your_mongodb_connection_string
-    JWT_SECRET=your_random_secret_key
+    JWT_SECRET=your_random_secret_key```
 
 3. **Run the Server:**
 
-    Development mode: ```console
+    Development mode: ```
     npm run dev
     ```
 
-    Production mode: ```console
+    Production mode: ```
     npm start
     ```
 
