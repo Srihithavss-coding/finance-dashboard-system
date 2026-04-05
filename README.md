@@ -44,11 +44,13 @@ A robust, secure Node.js/Express/MongoDB backend designed for financial data man
 
 3. **Run the Server:**
 
-    Development mode: $$
+    Development mode: ```console
     npm run dev
-    $$
+    ```
 
-    Production mode: $npm start$
+    Production mode: ```console
+    npm start
+    ```
 
 ## 📝 Design Decisions & Assumptions
 - **Soft Delete:** Implemented an isDeleted flag for records. This ensures data can be recovered if necessary and maintains database integrity for historical reporting.
