@@ -1,0 +1,149 @@
+openapi: 3.0.0
+info:
+  title: Finance Dashboard API
+  description: |
+    A secure financial management API with Role-Based Access Control (RBAC). 
+    - **Admin:** Full CRUD access.
+    - **Analyst:** View records and Dashboard Analytics.
+    - **Viewer:** View records only.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:5000
+    description: Local Development Server
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+paths:
+  # --- AUTHENTICATION ---
+  /api/auth/register:
+    post:
+      tags: [Authentication]
+      summary: Register a new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: { type: string }
+                email: { type: string }
+                password: { type: string }
+                role: { type: string, enum: [admin, analyst, viewer] }
+      responses:
+        201:
+          description: User created successfully
+
+  /api/auth/login:
+    post:
+      tags: [Authentication]
+      summary: Login to get JWT Token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email: { type: string }
+                password: { type: string }
+      responses:
+        200:
+          description: Returns JWT Token
+
+  # --- FINANCIAL RECORDS ---
+  /api/records:
+    get:
+      tags: [Records]
+      summary: Fetch all records (Paginated & Filtered)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: page
+          schema: { type: integer, default: 1 }
+        - in: query
+          name: limit
+          schema: { type: integer, default: 10 }
+        - in: query
+          name: search
+          description: Search description using keywords
+          schema: { type: string }
+        - in: query
+          name: type
+          schema: { type: string, enum: [income, expense] }
+      responses:
+        200:
+          description: List of records with pagination metadata
+
+    post:
+      tags: [Records]
+      summary: Create a new record (Admin Only)
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount: { type: number }
+                type: { type: string, enum: [income, expense] }
+                category: { type: string }
+                description: { type: string }
+      responses:
+        201:
+          description: Record created
+
+  /api/records/{id}:
+    put:
+      tags: [Records]
+      summary: Update a record (Admin Only)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        200:
+          description: Record updated
+    delete:
+      tags: [Records]
+      summary: Soft delete a record (Admin Only)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        200:
+          description: Record moved to trash (isDeleted set to true)
+
+  # --- DASHBOARD ANALYTICS ---
+  /api/dashboard/summary:
+    get:
+      tags: [Analytics]
+      summary: Get financial totals (Admin/Analyst Only)
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Returns totalIncome, totalExpense, and netBalance
+
+  /api/dashboard/categories:
+    get:
+      tags: [Analytics]
+      summary: Get category-wise breakdown (Admin/Analyst Only)
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Returns array of categories with sums

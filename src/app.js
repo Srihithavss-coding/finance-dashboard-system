@@ -5,6 +5,9 @@ const connectDB = require('./config/db.js');
 const authRoutes = require('./routes/authRoutes');
 const recordRoutes = require('./routes/recordRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yaml');
 
 dotenv.config();
 
@@ -23,6 +26,8 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/records', recordRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+// Swagger Documentation Route
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const PORT = process.env.PORT || 5000;
 

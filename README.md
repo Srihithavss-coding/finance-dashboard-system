@@ -33,24 +33,22 @@ A robust, secure (Node.js/Express/MongoDB) backend designed for financial data m
 2. **Install Dependencies:**
     ```
     npm install
-```
+    ```
+    
     Environment Configuration:
     Create a .env file in the root directory and add the following:
 
     ```
     PORT=5000
     MONGO_URI=your_mongodb_connection_string
-    JWT_SECRET=your_random_secret_key```
+    JWT_SECRET=your_random_secret_key
+    ```
 
 3. **Run the Server:**
 
-    Development mode: ```
-    npm run dev
-    ```
+    Development mode: ``` npm run dev```
 
-    Production mode: ```
-    npm start
-    ```
+    Production mode: ``` npm start ```
 
 ## 📝 Design Decisions & Assumptions
 - **Soft Delete:** Implemented an isDeleted flag for records. This ensures data can be recovered if necessary and maintains database integrity for historical reporting.
@@ -89,22 +87,35 @@ finance-dashboard-backend/
 └── README.md               # Project Documentation
 ```
 
-## 🧪 API Endpoints
-**Authentication**
-$POST /api/auth/register$ - Create a new user (Body: name, email, password, role)
+## 📖 API Documentation & Usage Guide
 
-$POST /api/auth/login$ - Authenticate and get token (Body: email, password)
+To test the API, use a tool like **Postman** or **Thunder Client**. All protected routes require a Bearer Token in the headers: `Authorization: Bearer <your_jwt_token>`.
 
-**Financial Records**
-$GET /api/records$ - Fetch records (Supports ?page=1&limit=10&search=text&type=income)
+### **1. Authentication**
+| Method | Endpoint | Description | Body (JSON) |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/auth/register` | Create a new user | `{"name", "email", "password", "role"}` |
+| `POST` | `/api/auth/login` | Get Auth Token | `{"email", "password"}` |
 
-$POST /api/records$ - Create record (Admin only)
+### **2. Financial Records (RBAC Protected)**
+| Method | Endpoint | Role Required | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/records` | Viewer/Analyst/Admin | Fetch all records (Supports `?search=`, `?page=`) |
+| `POST` | `/api/records` | **Admin** | Create a new record |
+| `PUT` | `/api/records/:id` | **Admin** | Update an existing record |
+| `DELETE` | `/api/records/:id` | **Admin** | Soft delete a record |
 
-$PUT /api/records/:id$ - Update record (Admin only)
+### **3. Dashboard Analytics**
+| Method | Endpoint | Role Required | Description |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/api/dashboard/summary` | **Analyst/Admin** | Total Income, Expense, and Net Balance |
+| `GET` | `/api/dashboard/categories` | **Analyst/Admin** | Breakdown of spending by category |
 
-$DELETE /api/records/:id$ - Soft delete record (Admin only)
+---
+## API Documentation URL:
+The API is fully documented using Swagger/OpenAPI. Once the server is running locally, the interactive documentation is available at: [http://localhost:5000/api-docs](http://localhost:5000/api-docs)
 
-**Dashboard Analytics**
-$GET /api/dashboard/summary$ - Get totals & balance (Admin/Analyst)
-
-$GET /api/dashboard/categories$ - Get category breakdown (Admin/Analyst)
+## 🛠 How to Test (Step-by-Step)
+1. **Register/Login:** Use the `/auth` endpoints to get a token.
+2. **Set Header:** In your API client, add a Header: `Authorization` with the value `Bearer [Paste Token Here]`.
+3. **Access Analytics:** Try accessing `/api/dashboard/summary` with a **Viewer** token (it should fail with 403) and then with an **Admin** token (it should succeed).
