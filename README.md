@@ -31,11 +31,13 @@ A robust, secure Node.js/Express/MongoDB backend designed for financial data man
    cd finance-dashboard-backend
 
 2. **Install Dependencies:**
+    ```terminal
     npm install
 
     Environment Configuration:
     Create a .env file in the root directory and add the following:
 
+    ```.env
     PORT=5000
     MONGO_URI=your_mongodb_connection_string
     JWT_SECRET=your_random_secret_key
@@ -56,7 +58,7 @@ A robust, secure Node.js/Express/MongoDB backend designed for financial data man
 - **Role Hierarchy:** Assumed a strict hierarchy where the Admin is the only "Write" authority, ensuring the financial ledger remains untampered with.
 
 ## 📂 Project Structure
-
+```text
 finance-dashboard-backend/
 ├── src/
 │   ├── config/             # Database connection logic
