@@ -44,9 +44,9 @@ A robust, secure Node.js/Express/MongoDB backend designed for financial data man
 
 3. **Run the Server:**
 
-    Development mode: npm run dev
+    Development mode: $npm run dev$
 
-    Production mode: npm start
+    Production mode: $npm start$
 
 ## 📝 Design Decisions & Assumptions
 - **Soft Delete:** Implemented an isDeleted flag for records. This ensures data can be recovered if necessary and maintains database integrity for historical reporting.
@@ -83,23 +83,24 @@ finance-dashboard-backend/
 ├── .gitignore              # Files to exclude from Git
 ├── package.json            # Dependencies & Scripts
 └── README.md               # Project Documentation
+```
 
 ## 🧪 API Endpoints
 **Authentication**
-POST /api/auth/register - Create a new user (Body: name, email, password, role)
+$POST /api/auth/register$ - Create a new user (Body: name, email, password, role)
 
-POST /api/auth/login - Authenticate and get token (Body: email, password)
+$POST /api/auth/login$ - Authenticate and get token (Body: email, password)
 
 **Financial Records**
-GET /api/records - Fetch records (Supports ?page=1&limit=10&search=text&type=income)
+$GET /api/records$ - Fetch records (Supports ?page=1&limit=10&search=text&type=income)
 
-POST /api/records - Create record (Admin only)
+$POST /api/records$ - Create record (Admin only)
 
-PUT /api/records/:id - Update record (Admin only)
+$PUT /api/records/:id$ - Update record (Admin only)
 
-DELETE /api/records/:id - Soft delete record (Admin only)
+$DELETE /api/records/:id$ - Soft delete record (Admin only)
 
 **Dashboard Analytics**
-GET /api/dashboard/summary - Get totals & balance (Admin/Analyst)
+$GET /api/dashboard/summary$ - Get totals & balance (Admin/Analyst)
 
-GET /api/dashboard/categories - Get category breakdown (Admin/Analyst)
+$GET /api/dashboard/categories$ - Get category breakdown (Admin/Analyst)
